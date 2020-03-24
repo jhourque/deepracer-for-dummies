@@ -92,7 +92,7 @@ gpu_available = os.environ.get("GPU_AVAILABLE", False)
 # 'local' for cpu, 'local_gpu' for nvidia gpu (and then you don't have to set default runtime to nvidia)
 instance_type = "local_gpu" if gpu_available else "local"
 image_name = "crr0004/sagemaker-rl-tensorflow:{}".format(
-    "nvidia" if gpu_available else "console")
+    "nvidia_v1.1" if gpu_available else "console_v1.1")
 
 estimator = RLEstimator(entry_point="training_worker.py",
                         source_dir='src',
@@ -126,9 +126,9 @@ estimator = RLEstimator(entry_point="training_worker.py",
                                          "loss_type": "mean squared error",
                                          "num_episodes_between_training" : 20,
                                          "term_cond_max_episodes" : 100000,
-                                         "term_cond_avg_score" : 100000
-                                         #"pretrained_s3_bucket": "{}".format(s3_bucket),
-                                         #"pretrained_s3_prefix": "rl-deepracer-pretrained"
+                                         "term_cond_avg_score" : 100000,
+                                         "pretrained_s3_bucket": "{}".format(s3_bucket),
+                                         "pretrained_s3_prefix": "rl-deepracer-pretrained"
                                          # "loss_type": "mean squared error",
                                       },
                         metric_definitions = metric_definitions,
